@@ -4,23 +4,38 @@ import ast
 def analyze_code(code: str):
     tree = ast.parse(code)
 
-    loops = 0
     functions = []
+    max_loop_depth = 0
 
-    for node in ast.walk(tree):
+    def visit(node, depth=0):
+        nonlocal max_loop_depth
+
         if isinstance(node, (ast.For, ast.While)):
-            loops += 1
+            depth += 1
+            max_loop_depth = max(max_loop_depth, depth)
 
         if isinstance(node, ast.FunctionDef):
             functions.append(node.name)
 
-    complexity = "O(n)"
+        for child in ast.iter_child_nodes(node):
+            visit(child, depth)
 
-    if loops >= 2:
+    visit(tree)
+
+    # Complexity estimation
+    if max_loop_depth == 0:
+        complexity = "O(1)"
+    elif max_loop_depth == 1:
+        complexity = "O(n)"
+    elif max_loop_depth == 2:
         complexity = "O(n²)"
+    elif max_loop_depth == 3:
+        complexity = "O(n³)"
+    else:
+        complexity = f"O(n^{max_loop_depth})"
 
     return {
-        "loops": loops,
+        "loop_depth": max_loop_depth,
         "functions": functions,
         "estimated_complexity": complexity
     }
