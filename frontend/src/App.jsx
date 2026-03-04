@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { analyzeCode } from "./services/api"
+import CallGraph from "./components/CallGraph";
 
 export default function App() {
 
@@ -46,6 +47,7 @@ Recursive Functions: {result.recursive_functions?.length > 0
 </p>
 
 <p>Complexity: {result.estimated_complexity}</p>
+<CallGraph graph={result.call_graph} />
 
         </div>
       )}
