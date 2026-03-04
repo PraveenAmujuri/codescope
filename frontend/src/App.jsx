@@ -52,7 +52,15 @@ Recursive Functions: {result.recursive_functions?.length > 0
     <li key={i}>{p}</li>
   ))}
 </ul>
+<h3>Performance Warnings</h3>
 
+<ul>
+  {result.heatmap?.map((h, i) => (
+    <li key={i}>
+      Line {h.line} → {h.message}
+    </li>
+  ))}
+</ul>
 <p>Complexity: {result.estimated_complexity}</p>
 <CallGraph graph={result.call_graph} />
 
