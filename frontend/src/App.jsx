@@ -33,9 +33,19 @@ export default function App() {
       {result && (
         <div className="mt-6 bg-gray-800 p-4 rounded">
 
-          <p>Loops: {result.loops}</p>
-          <p>Functions: {result.functions.join(", ")}</p>
-          <p>Complexity: {result.estimated_complexity}</p>
+<p>Loop Depth: {result.loop_depth}</p>
+
+<p>
+Functions: {result.functions?.join(", ")}
+</p>
+
+<p>
+Recursive Functions: {result.recursive_functions?.length > 0
+  ? result.recursive_functions.join(", ")
+  : "None"}
+</p>
+
+<p>Complexity: {result.estimated_complexity}</p>
 
         </div>
       )}

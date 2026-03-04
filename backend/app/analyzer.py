@@ -5,22 +5,43 @@ def analyze_code(code: str):
     tree = ast.parse(code)
 
     functions = []
+    recursive_functions = []
     max_loop_depth = 0
 
-    def visit(node, depth=0):
-        nonlocal max_loop_depth
+    class Analyzer(ast.NodeVisitor):
+        def __init__(self):
+            self.current_function = None
+            self.depth = 0
 
-        if isinstance(node, (ast.For, ast.While)):
-            depth += 1
-            max_loop_depth = max(max_loop_depth, depth)
-
-        if isinstance(node, ast.FunctionDef):
+        def visit_FunctionDef(self, node):
             functions.append(node.name)
+            self.current_function = node.name
+            self.generic_visit(node)
+            self.current_function = None
 
-        for child in ast.iter_child_nodes(node):
-            visit(child, depth)
+        def visit_Call(self, node):
+            if isinstance(node.func, ast.Name):
+                if node.func.id == self.current_function:
+                    recursive_functions.append(self.current_function)
+            self.generic_visit(node)
 
-    visit(tree)
+        def visit_For(self, node):
+            self.depth += 1
+            global max_loop_depth
+            max_loop_depth = max(max_loop_depth, self.depth)
+            self.generic_visit(node)
+            self.depth -= 1
+
+        def visit_While(self, node):
+            self.depth += 1
+            global max_loop_depth
+            max_loop_depth = max(max_loop_depth, self.depth)
+            self.generic_visit(node)
+            self.depth -= 1
+
+
+    analyzer = Analyzer()
+    analyzer.visit(tree)
 
     # Complexity estimation
     if max_loop_depth == 0:
@@ -35,7 +56,8 @@ def analyze_code(code: str):
         complexity = f"O(n^{max_loop_depth})"
 
     return {
-        "loop_depth": max_loop_depth,
         "functions": functions,
+        "recursive_functions": recursive_functions,
+        "loop_depth": max_loop_depth,
         "estimated_complexity": complexity
     }
