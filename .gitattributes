@@ -1,0 +1,40 @@
+# Auto detect text files and normalize line endings
+* text=auto
+
+# Python
+*.py text
+
+# JavaScript / React
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+
+# Config files
+*.json text
+*.yml text
+*.yaml text
+*.toml text
+*.md text
+*.css text
+*.html text
+
+# Shell scripts
+*.sh text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+
+# Prevent Git from modifying node modules if accidentally committed
+node_modules/** -diff
+
+# Python cache
+__pycache__/** -diff

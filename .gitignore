@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env/
+
+# Node
+node_modules/
+dist/
+build/
+
+# React
+frontend/node_modules/
+frontend/dist/
+
+# Python builds
+*.egg-info
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
