@@ -45,6 +45,13 @@ Recursive Functions: {result.recursive_functions?.length > 0
   ? result.recursive_functions.join(", ")
   : "None"}
 </p>
+<p>Detected Patterns:</p>
+
+<ul>
+  {result.patterns?.map((p, i) => (
+    <li key={i}>{p}</li>
+  ))}
+</ul>
 
 <p>Complexity: {result.estimated_complexity}</p>
 <CallGraph graph={result.call_graph} />
