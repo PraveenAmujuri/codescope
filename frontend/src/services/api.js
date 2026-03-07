@@ -1,11 +1,15 @@
-import axios from "axios"
+export async function analyzeCode(code, language) {
 
-const API_URL = "http://localhost:8000"
-
-export const analyzeCode = async (code) => {
-  const response = await axios.post(`${API_URL}/analyze`, {
-    code: code
+  const res = await fetch("http://127.0.0.1:8000/analyze", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      code: code,
+      language: language
+    })
   })
 
-  return response.data
+  return res.json()
 }
