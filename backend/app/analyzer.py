@@ -102,3 +102,4 @@ def analyze_code(code: str, language="python"):
         if "flow_data" not in analysis:
             analysis["flow_data"] = {"nodes": [], "edges": []}
         return analysis
+    
